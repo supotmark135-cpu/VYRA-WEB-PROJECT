@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>VYRA — Media & App Hub</title>
+<style>
+:root{--bg:#07080d;--card:#10131b;--card2:#151925;--text:#f5f7fb;--muted:#8791a6;--line:#202635;--purple:#ff0033;--cyan:#ff4d68}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(145deg,#07080d,#0a0c13 55%,#0d0b19);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+header{position:sticky;top:0;z-index:20;background:rgba(7,8,13,.82);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav{max-width:1120px;margin:auto;height:58px;display:flex;align-items:center;gap:10px;padding:0 14px}
+.logo{font-size:20px;font-weight:950;letter-spacing:.8px;background:linear-gradient(100deg,#fff 25%,#ff3150 65%,#ff8090);-webkit-background-clip:text;color:transparent}
+.search{flex:1;max-width:520px;margin:auto;background:#11151f;border:1px solid #252c3b;border-radius:11px;padding:9px 13px;color:#fff;outline:0;font-size:13px}.search:focus{border-color:#ff304f}
+.nav-actions{display:flex;gap:6px}.btn{border:1px solid #293143;background:#151a25;color:#eef1f8;padding:8px 11px;border-radius:10px;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn.primary{border:0;background:linear-gradient(135deg,#ff0033,#d9002b)}.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+main{max-width:1120px;margin:auto;padding:22px 14px 65px}.hero{padding:12px 0 15px}.hero h1{font-size:clamp(27px,4vw,43px);line-height:1.03;margin:0 0 8px;letter-spacing:-1.4px}.hero p{font-size:13px;line-height:1.55;color:var(--muted);max-width:620px;margin:0}
+.tabs{display:flex;gap:6px;overflow:auto;padding:8px 0 16px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{white-space:nowrap;padding:8px 13px;border-radius:999px;border:1px solid #252c3b;background:#0d1119;color:#aeb7c8;font-size:12px;font-weight:700}.tab.active{background:#f3f5fa;color:#080a0f;border-color:#f3f5fa}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.card{background:linear-gradient(160deg,#11151e,#0d1017);border:1px solid #1f2634;border-radius:14px;overflow:hidden;min-width:0;transition:.18s}.card:hover{border-color:#353e55;transform:translateY(-2px)}
+.thumb{aspect-ratio:16/9;background:#090c12;display:flex;align-items:center;justify-content:center;overflow:hidden}.thumb img,.thumb video{width:100%;height:100%;object-fit:cover}.thumb .icon{font-size:30px;opacity:.85}
+.body{padding:11px}.title{font-weight:800;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:10px;color:#717c90;margin-top:4px;text-transform:uppercase;letter-spacing:.4px}.desc{font-size:11px;color:#a8b1c1;margin:7px 0 9px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.actions{display:flex;gap:5px;align-items:center}.small{padding:6px 8px;border-radius:8px;font-size:11px}.like.liked{color:#ff4d78;border-color:#5b2639;background:#21111a}
+.empty{border:1px dashed #2a3345;border-radius:14px;padding:38px;text-align:center;color:#778196;grid-column:1/-1;font-size:13px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(7px);z-index:50;display:none;align-items:center;justify-content:center;padding:12px}.modal.show{display:flex}.dialog{width:min(470px,100%);max-height:92vh;overflow:auto;background:#0f131c;border:1px solid #293143;border-radius:18px;padding:18px;box-shadow:0 25px 80px #000}.dialog h2{font-size:21px;margin:0 0 12px}.close{float:right;border:0;background:transparent;color:#8791a5;font-size:22px}.field{margin:10px 0}.field label{display:block;font-size:11px;color:#aeb7c8;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;background:#090c12;border:1px solid #293143;color:#fff;border-radius:9px;padding:9px 10px;font-size:12px;outline:0}.field textarea{min-height:80px;resize:vertical}.row{display:flex;gap:7px}.row>*{flex:1}.hint{font-size:10px;color:#727d92;line-height:1.5}.adminbar{display:none;margin:4px 0 14px;padding:12px 14px;border:1px solid #332c57;background:linear-gradient(135deg,#151225,#101722);border-radius:14px}.adminbar.show{display:flex;justify-content:space-between;align-items:center;gap:10px}.drop{border:1px dashed #37445c;border-radius:10px;padding:14px;text-align:center}.comments{margin-top:13px;border-top:1px solid var(--line);padding-top:11px}.comment{padding:8px 0;border-bottom:1px solid #1b2230;font-size:11px}.comment b{color:#dce2ee}.profile{font-size:12px;color:#cbd3e3}
+@media(max-width:820px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.search{max-width:none}.nav{height:56px}.logo{font-size:18px}}
+@media(max-width:600px){.nav{padding:0 9px;gap:6px}.nav-actions .btn{padding:8px 9px}.nav-actions .btn span{display:none}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.body{padding:9px}.hero{padding-top:9px}.hero h1{font-size:29px}.hero p{font-size:12px}.main{padding-top:15px}.btn{font-size:11px;padding:7px 9px}.search{font-size:12px;padding:8px 10px}.tabs{padding-bottom:12px}.tab{font-size:11px;padding:7px 11px}}
+@media(min-width:1200px){.grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<div id="loginGate" style="position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:18px;background:radial-gradient(circle at 50% 20%,#301015 0,#090a0f 48%,#050609 100%);">
+  <div style="width:min(390px,100%);text-align:center;">
+    <div style="font-size:38px;font-weight:950;letter-spacing:1px;color:#fff;margin-bottom:7px;"><span style="display:inline-block;background:#ff0033;border-radius:9px;padding:2px 9px;margin-right:5px;font-size:24px;">▶</span>VYRA</div>
+    <div style="font-size:12px;color:#8d96a8;margin-bottom:24px;">Videos · Apps · Images · Files</div>
+    <div style="background:#10131b;border:1px solid #292f3b;border-radius:18px;padding:20px;text-align:left;box-shadow:0 20px 70px #000;">
+      <h2 style="margin:0 0 5px;font-size:22px;">Welcome to VYRA</h2>
+      <p style="margin:0 0 17px;color:#8993a6;font-size:12px;line-height:1.5;">Sign in or create an account to enter the VYRA community.</p>
+      <button class="btn primary" style="width:100%;background:#ff0033;padding:11px;" onclick="openAuthGate()">Login / Register</button>
+      <div style="text-align:center;color:#687287;font-size:10px;margin-top:13px;">Phone verification · Secure account access</div>
+    </div>
+  </div>
+</div>
+<header><div class="nav">
+  <div class="logo">VYRA</div>
+  <input id="search" class="search" placeholder="Search videos, apps, files..." oninput="render()">
+  <div class="nav-actions"><button class="btn ghost" onclick="openAuth()" id="authBtn">Login</button><button class="btn primary" onclick="openAdmin()">Admin</button></div>
+</div></header>
+
+<main>
+<section class="hero"><h1>Everything you want.<br>In one place.</h1><p>A premium community hub for videos, images, apps and files — inspired by the best parts of video platforms, short-form feeds and app stores.</p></section>
+<div id="adminbar" class="adminbar"><div><b>Admin Studio</b><div class="hint">Upload and publish content to your VYRA library.</div></div><button class="btn primary" onclick="openUpload()">＋ Upload</button></div>
+<div class="tabs"><button class="tab active" onclick="setFilter('all',this)">For You</button><button class="tab" onclick="setFilter('video',this)">Videos</button><button class="tab" onclick="setFilter('image',this)">Images</button><button class="tab" onclick="setFilter('apk',this)">Apps</button><button class="tab" onclick="setFilter('file',this)">Files</button></div>
+<section id="grid" class="grid"></section>
+</main>
+<div style="position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:18;display:none" id="mobileNav">
+  <div style="background:#11151eeb;border:1px solid #252c3b;border-radius:15px;padding:6px;backdrop-filter:blur(16px);display:flex;gap:4px">
+    <button class="btn small" onclick="window.scrollTo({top:0,behavior:'smooth'})">⌂ Home</button>
+    <button class="btn small" onclick="document.getElementById('search').focus()">⌕ Search</button>
+    <button class="btn small" onclick="openAdmin()">＋ Admin</button>
+  </div>
+</div>
+<div id="authModal" class="modal"><div class="dialog"><button class="close" onclick="closeModal('authModal')">×</button><h2 id="authTitle">Welcome back</h2><div id="authFields">
+<div class="field"><label>Phone number</label><input id="phone" placeholder="+63 9XXXXXXXXX"></div>
+<div id="recaptcha-container"></div>
+<p class="hint">Phone login uses Firebase Authentication. For production, enable Phone provider in Firebase Console and configure reCAPTCHA.</p>
+</div><div class="row"><button class="btn primary" onclick="sendCode()">Send code</button><button class="btn" onclick="closeModal('authModal')">Cancel</button></div>
+<div id="codeBox" style="display:none"><div class="field"><label>SMS verification code</label><input id="code" inputmode="numeric"></div><button class="btn primary" onclick="verifyCode()">Verify & Login</button></div>
+<p class="hint">New phone numbers can create an account automatically after verification.</p></div></div>
+
+<div id="adminModal" class="modal"><div class="dialog"><button class="close" onclick="closeModal('adminModal')">×</button><h2>Admin Control</h2><p class="hint">This demo checks the admin password in the browser. For a real public site, use Firebase Authentication + custom claims/security rules instead of a client-side password.</p><div class="field"><label>Admin password</label><input id="adminPass" type="password" placeholder="Enter admin password"></div><button class="btn primary" onclick="adminLogin()">Enter Studio</button></div></div>
+
+<div id="uploadModal" class="modal"><div class="dialog"><button class="close" onclick="closeModal('uploadModal')">×</button><h2>Upload to VYRA</h2>
+<div class="field"><label>Title</label><input id="upTitle" placeholder="My awesome app"></div>
+<div class="field"><label>Type</label><select id="upType"><option value="video">Video</option><option value="image">Image</option><option value="apk">APK / App</option><option value="file">File (PY, Lua, HTML, ZIP, etc.)</option></select></div>
+<div class="field"><label>Description</label><textarea id="upDesc" placeholder="Tell viewers what this is..."></textarea></div>
+<div class="field"><label>File</label><input id="upFile" type="file"></div>
+<div class="drop hint">Firebase Storage will hold the uploaded file. Firestore will hold its title, description, type, likes and comments.</div>
+<br><button class="btn primary" onclick="uploadContent()">Publish</button></div></div>
+
+<div id="viewModal" class="modal"><div class="dialog"><button class="close" onclick="closeModal('viewModal')">×</button><div id="viewer"></div></div></div>
+<div id="toast" class="status"></div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {getAuth, RecaptchaVerifier, signInWithPhoneNumber, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, doc, updateDoc, increment, onSnapshot, arrayUnion} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {getStorage, ref, uploadBytes, getDownloadURL} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+
+/* PASTE YOUR FIREBASE WEB CONFIG HERE */
+const firebaseConfig = {
+  apiKey: "PASTE_API_KEY",
+  authDomain: "PASTE_PROJECT.firebaseapp.com",
+  projectId: "PASTE_PROJECT_ID",
+  storageBucket: "PASTE_STORAGE_BUCKET",
+  messagingSenderId: "PASTE_SENDER_ID",
+  appId: "PASTE_APP_ID"
+};
+
+let app,auth,db,storage,confirmationResult=null,currentUser=null,filter="all",admin=false;
+const demoData=[
+ {id:"demo1",title:"Welcome to VYRA",type:"video",description:"Your new all-in-one media and app hub.",url:"",likes:128},
+ {id:"demo2",title:"HTML Starter Pack",type:"file",description:"Upload HTML, Python, Lua and other files from Admin Studio.",url:"",likes:74},
+ {id:"demo3",title:"VYRA Apps",type:"apk",description:"An app-store style section for downloadable files.",url:"",likes:96}
+];
+
+function configured(){return !firebaseConfig.apiKey.startsWith("PASTE_")}
+try{if(configured()){app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);storage=getStorage(app);onAuthStateChanged(auth,u=>{currentUser=u;document.getElementById("authBtn").textContent=u?"Logout":"Login";if(u)unlockVYRA();});} }catch(e){toast("Firebase config error");console.error(e)}
+window.setFilter=(x,el)=>{filter=x;document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));el.classList.add("active");render()};
+
+window.openAuthGate=()=>{document.getElementById("authModal").classList.add("show");if(configured()&&!window.recaptchaVerifier)window.recaptchaVerifier=new RecaptchaVerifier(auth,"recaptcha-container",{size:"invisible"});};
+window.unlockVYRA=()=>{const g=document.getElementById("loginGate");if(g)g.style.display="none";};
+window.openAuth=()=>{if(currentUser){signOut(auth);return}document.getElementById("authModal").classList.add("show");if(configured()&&!window.recaptchaVerifier)window.recaptchaVerifier=new RecaptchaVerifier(auth,"recaptcha-container",{size:"invisible"});}
+window.sendCode=async()=>{if(!configured())return toast("Add your Firebase config first.");try{confirmationResult=await signInWithPhoneNumber(auth,document.getElementById("phone").value,window.recaptchaVerifier);document.getElementById("codeBox").style.display="block";toast("Verification code sent.")}catch(e){toast(e.message)}}
+window.verifyCode=async()=>{try{await confirmationResult.confirm(document.getElementById("code").value);closeModal("authModal");unlockVYRA();toast("Logged in successfully.")}catch(e){toast("Invalid verification code.")}}
+window.openAdmin=()=>document.getElementById("adminModal").classList.add("show");
+window.adminLogin=()=>{if(document.getElementById("adminPass").value==="admin222"){admin=true;document.getElementById("adminbar").classList.add("show");closeModal("adminModal");toast("Admin Studio unlocked.")}else toast("Wrong admin password.")};
+window.openUpload=()=>{if(!admin)return openAdmin();document.getElementById("uploadModal").classList.add("show")};
+window.closeModal=id=>document.getElementById(id).classList.remove("show");
+window.uploadContent=async()=>{
+ if(!configured())return toast("Add Firebase config first.");
+ const f=document.getElementById("upFile").files[0],title=document.getElementById("upTitle").value.trim(),type=document.getElementById("upType").value,description=document.getElementById("upDesc").value.trim();
+ if(!f||!title)return toast("Title and file are required.");
+ try{toast("Uploading...");
+   const safe=f.name.replace(/[^\w.\-]/g,"_"),r=ref(storage,`uploads/${Date.now()}_${safe}`);
+   await uploadBytes(r,f);const url=await getDownloadURL(r);
+   await addDoc(collection(db,"posts"),{title,type,description,url,fileName:f.name,size:f.size,likes:0,comments:[],createdAt:serverTimestamp()});
+   closeModal("uploadModal");document.getElementById("upTitle").value="";document.getElementById("upDesc").value="";document.getElementById("upFile").value="";toast("Published!");load();
+ }catch(e){console.error(e);toast(e.message)}
+};
+async function load(){
+ if(!configured()){render(demoData);return}
+ try{const snap=await getDocs(query(collection(db,"posts"),orderBy("createdAt","desc")));const arr=snap.docs.map(d=>({id:d.id,...d.data()}));render(arr.length?arr:demoData)}
+ catch(e){render(demoData);console.log(e)}
+}
+function render(data=demoData){
+ const q=document.getElementById("search").value.toLowerCase();const list=data.filter(x=>(filter==="all"||x.type===filter)&&(!q||(`${x.title} ${x.description}`.toLowerCase().includes(q))));
+ const grid=document.getElementById("grid");if(!list.length){grid.innerHTML='<div class="empty">Nothing here yet.</div>';return}
+ grid.innerHTML=list.map(x=>card(x)).join("");
+}
+function card(x){
+ const icon={video:"▶",image:"▧",apk:"▣",file:"⌁"}[x.type]||"•";
+ const media=x.type==="image"&&x.url?`<img src="${esc(x.url)}" alt="">`:x.type==="video"&&x.url?`<video src="${esc(x.url)}" muted></video>`:`<div class="icon">${icon}</div>`;
+ return `<article class="card"><div class="thumb">${media}</div><div class="body"><div class="title">${esc(x.title)}</div><div class="meta">${x.type.toUpperCase()} · ${x.likes||0} likes</div><div class="desc">${esc(x.description||"No description.")}</div><div class="actions"><button class="btn small like" onclick="likePost('${x.id}')">♡ ${x.likes||0}</button><button class="btn small" onclick="viewPost('${x.id}')">View</button>${x.url?`<a class="btn small" href="${esc(x.url)}" download target="_blank">Download</a>`:""}</div></div></article>`;
+}
+window.likePost=async id=>{if(!configured()||id.startsWith("demo"))return toast("Connect Firebase to enable likes.");try{await updateDoc(doc(db,"posts",id),{likes:increment(1)});load()}catch(e){toast(e.message)}};
+window.viewPost=async id=>{let x;if(id.startsWith("demo"))x=demoData.find(a=>a.id===id);else{try{x=(await (await getDocs(query(collection(db,"posts"))))).docs.map(d=>({id:d.id,...d.data()})).find(a=>a.id===id)}catch(e){}}
+ if(!x)return;document.getElementById("viewer").innerHTML=`<h2>${esc(x.title)}</h2>${x.type==="image"&&x.url?`<img style="width:100%;border-radius:14px" src="${esc(x.url)}">`:x.type==="video"&&x.url?`<video style="width:100%;border-radius:14px" controls src="${esc(x.url)}"></video>`:""}<p class="hint">${esc(x.description||"")}</p>${x.url?`<a class="btn primary" href="${esc(x.url)}" download target="_blank">Download ${x.type==="apk"?"APK":"File"}</a>`:""}<div class="comments"><b>Comments</b><div id="commentList">${(x.comments||[]).map(c=>`<div class="comment"><b>${esc(c.user||"User")}</b> ${esc(c.text)}</div>`).join("")||'<div class="hint">No comments yet.</div>'}</div>${configured()&&!id.startsWith("demo")?`<div class="row" style="margin-top:10px"><input id="commentInput" class="search" placeholder="Write a comment..."><button class="btn primary" onclick="commentPost('${id}')">Post</button></div>`:""}</div>`;document.getElementById("viewModal").classList.add("show")};
+window.commentPost=async id=>{if(!currentUser)return toast("Login first.");const t=document.getElementById("commentInput").value.trim();if(!t)return;try{await updateDoc(doc(db,"posts",id),{comments:arrayUnion({user:currentUser.phoneNumber||"User",text:t,at:new Date().toISOString()})});viewPost(id);toast("Comment posted.")}catch(e){toast(e.message)}};
+function esc(s=""){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function toast(s){const t=document.getElementById("toast");t.textContent=s;t.style.display="block";clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display="none",2800)}
+window.render=()=>load();
+load();
+</script>
+<script>if(innerWidth<=600)document.getElementById("mobileNav").style.display="block";</script></body>
+</html>
